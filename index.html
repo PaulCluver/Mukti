@@ -1,0 +1,79 @@
+
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html ng-app="yogaApp" ng-controller="appCtrl">
+<head>
+	<link rel="stylesheet" href="node_modules/zurb-foundation-npm/css/foundation.css"/>
+	<script src="node_modules/zurb-foundation-npm/js/modernizr.js"></script>
+	<script src="node_modules/angular/angular.js"></script>
+	<script src="node_modules/ui-router/angular-ui-router.js"></script>
+	<script src="app/app.js"></script>
+	<script src="app/home/home.js"></script>
+	<script src="app/workshops/workshops.js"></script>
+	<script src="app/contact/contact.js"></script>
+</head>
+<body>
+	<div class="row">
+		<div class="large-3 columns">
+			<h1><img src="http://placehold.it/400x100&text=Logo"/></h1>
+		</div>
+		<div class="large-9 columns">
+			<ul class="right button-group">
+				<li><a ui-sref="home" class="button">Home</a></li>
+				<li><a ui-sref="hatha" class="button">Hatha</a></li>
+				<li><a ui-sref="ashtanga" class="button">Ashtanga</a></li>
+				<li><a ui-sref="vinyasa" class="button">Vinyasa</a></li>
+				<li><a ui-sref="workshops" class="button">Workshops</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="row">
+		<div class="large-12 columns">
+			<p>
+				<div ui-view></div>
+			</p>
+		</div>
+	</div>	
+	<div class="row" ng-hide="showContactUs()">
+		<!-- <button ng-click="showContactUs()">Test</button> -->
+		<div class="large-12 columns">
+			<div class="panel">
+				<h4>Get in touch!</h4>
+				<div class="row">
+					<div class="large-9 columns">
+						<p>We'd love to hear from you, you attractive person you.</p>
+					</div>
+					<div class="large-3 columns">
+						<a ui-sref="contact" class="radius button right">Contact Us</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<footer class="row">
+		<div class="large-12 columns">
+			<hr/>
+			<div class="row">
+				<div class="large-6 columns">
+					<p>&copy; Copyright no one at all. Go to town.</p>
+				</div>
+				<div class="large-6 columns">
+					<ul class="inline-list right">
+						<li><a href="#">Link 1</a></li>
+						<li><a href="#">Link 2</a></li>
+						<li><a href="#">Link 3</a></li>
+						<li><a href="#">Link 4</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</footer>
+	
+	<script src="node_modules/zurb-foundation-npm/js/jquery.js"></script>
+	<script src="node_modules/zurb-foundation-npm/js/foundation/foundation.js"></script>
+	<script>
+		$(document).foundation();
+	</script>	
+</body>
+</html>

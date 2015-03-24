@@ -1,0 +1,27 @@
+
+<img src="http://placehold.it/1000x300&text=[img]"/>
+<h4>Contact Us</h4>
+<div ng-controller="contactCtrl">
+	<form>
+		<div class="row">
+			<div class="large-6 columns">
+				<label>Name</label><input type="text" />
+			</div>
+			<div class="large-6 columns">
+				<label>Surname</label><input type="text" />
+			</div>
+		</div>
+		<div class="row">
+			<div class="large-12 columns">
+				<label>Comment/Question</label><textarea></textarea>
+			</div>
+		</div>
+		<div class="row">
+			<div class="large-3 columns">
+				<a class="button" href="#" ng-click="contactUs()">Send</a>
+				<a class="secondary button" href="#" ng-click="reset()" >Reset</a>
+			</div>
+		</div>
+	</form>
+</div>
+
