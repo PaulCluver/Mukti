@@ -2,23 +2,38 @@
 <img src="http://placehold.it/1000x300&text=[img]"/>
 <h4>Workshops</h4>
 <div class="row">
-	<div ng-controller="workshopCtrl">
-		<div ng-repeat="workshop in workshops">
-			<div class="small-12 columns">
-				<h5>{{ workshop.name}}</h5>
-			</div>
-			<div class="small-12 columns">
-				<b>Date: </b>{{ workshop.date }}
-			</div>
-			<div class="small-12 columns">
-				<b>Time: </b>{{ workshop.time}}
-			</div>
-			<div class="small-12 columns">
-				<address>
-					<b>Address:</b> {{workshop.location.address}}, {{workshop.location.suburb}}, {{workshop.location.city}}, {{workshops.location.province}}
-				</address>
-			</div>
-		</div>
-	</div>
+  <div class="large-3 columns">
+    <select ng-model="customSort">
+      <option value="">-- Sort By --</option>
+      <option value="date">Date</option>
+      <option value="price">Price</option>
+      <option value="duration">Duration</option>
+    </select>    
+  </div>
+  <div class="large-12 columns">
+    <table ng-controller="workshopCtrl">
+      <thead>
+        <tr>
+          <th width="250">Name</th>
+          <th width="250">Description</th>
+          <th width="150">Date</th>
+          <th width="100">Time</th>
+          <th width="50">Duration</th>
+          <th width="50">Price</th>
+          <th width="150">Address</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="workshop in workshops | orderBy: customSort">
+          <td valign="top">{{ workshop.name | uppercase}}</td>
+          <td valign="top">{{ workshop.description}}</td>
+          <td valign="top">{{ workshop.date |  date:'dd-MMM-yyyy'}}</td>
+          <td valign="top">{{ workshop.time}}</td>
+          <td valign="top">{{ workshop.duration | durations}}</td>
+          <td valign="top">{{ workshop.price | currency : 'R'}}</td>
+          <td valign="top">{{workshop.location.address}}, {{workshop.location.suburb}}, {{workshop.location.city}}, {{workshops.location.province}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
-
