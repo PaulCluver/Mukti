@@ -10,12 +10,12 @@ var yogaApp =  angular.module('yogaApp', [
 .controller('appCtrl', ['$scope', function($scope) {
 
  	$scope.showContactUs = function() {
- 		$scope.myBoolean = false;
+ 		$scope.showContactUsBoolean = false;
  		if (location.hash == '#/contact')
  		{
- 			$scope.myBoolean = true;
+ 			$scope.showContactUsBoolean = true;
  		}
- 		return $scope.myBoolean;
+ 		return $scope.showContactUsBoolean;
  	};
  	
 }])
