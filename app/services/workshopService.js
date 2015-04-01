@@ -1,11 +1,8 @@
 'use strict';
 
-angular.module('yogaApp.workshops', ['ui.router'])
-	
-	.controller('workshopCtrl', ['$scope', function($scope) 
-	{
-		$scope.sortOrder = 'customSort';
-		$scope.workshops = [
+angular.module('yogaApp.workshopService', ['ui.router'])
+.service('WorkshopDataService', function() {
+	this.workshops = [
 			{
 				name: 'Ashtanga Arm Balances',
 				description: 'Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit, dolore aliqua non',
@@ -66,6 +63,10 @@ angular.module('yogaApp.workshops', ['ui.router'])
 					province: 'Kwa-zulu Natal'
 				}
 			}
-		];
-	}]
-);
+		]; 
+})
+.service('WorkshopService', function(WorkshopDataService) {
+	this.getAllWorkshops = function() { 
+		return WorkshopDataService.workshops;
+	};
+});

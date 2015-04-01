@@ -5,8 +5,9 @@ var yogaApp =  angular.module('yogaApp', [
   'ui.router',
   'yogaApp.home',
   'yogaApp.workshops',
-  'yogaApp.contact'
-])
+  'yogaApp.contact',
+  'yogaApp.workshopService'
+ ])
 .controller('appCtrl', ['$scope', function($scope) {
 
  	$scope.showContactUs = function() {
@@ -25,32 +26,32 @@ var yogaApp =  angular.module('yogaApp', [
 	$stateProvider
 		.state('home', {
 			url: "/home",
-			templateUrl: "app/home/home.html",
+			templateUrl: "app/controllers/home/home.html",
 			controller: "homeCtrl"
 		})
 
 		.state('hatha', {
 			url: "/hatha",
-			templateUrl: "app/hatha/hatha.html"
+			templateUrl: "app/controllers/hatha/hatha.html"
 		})
 		
 		.state('ashtanga', {
 			url: "/ashtanga",
-			templateUrl: "app/ashtanga/ashtanga.html"
+			templateUrl: "app/controllers/ashtanga/ashtanga.html"
 		})
 		
 		.state('vinyasa', {
 			url: "/vinyasa",
-			templateUrl: "app/vinyasa/vinyasa.html"
+			templateUrl: "app/controllers/vinyasa/vinyasa.html"
 		})
 
 		.state('workshops', {
 			url: "/workshops",
-			templateUrl: "app/workshops/workshops.html"
+			templateUrl: "app/controllers/workshops/workshops.html"
 		})
 		
 		.state('contact', {
 			url: "/contact",
-			templateUrl: "app/contact/contact.html"
+			templateUrl: "app/controllers/contact/contact.html"
 		})
 });
