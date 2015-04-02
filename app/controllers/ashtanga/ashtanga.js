@@ -1,14 +1,8 @@
 'use strict';
 
-angular.module('myApp.view1', ['ngRoute'])
+angular.module('yogaApp.ashtanga', ['ui.router'])
 
-.config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/view1', {
-    templateUrl: 'app/view1/view1.html',
-    controller: 'View1Ctrl'
-  });
-}])
+.controller('ashtangaCtrl', ['$scope', function($scope) {
 
-.controller('View1Ctrl', [function() {
-
+ 	
 }]);

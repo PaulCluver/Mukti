@@ -11,7 +11,6 @@ angular.module('yogaApp.contact', ['ui.router'])
 	};
 
 	$scope.reset = function(form) {
-		console.log(1);
 		if (form) {
 			form.$setPristine();
 			form.$setUntouched();

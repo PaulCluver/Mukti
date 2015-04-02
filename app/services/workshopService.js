@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('yogaApp.workshopService', ['ui.router'])
-.service('WorkshopDataService', function() {
-	this.workshops = [
+angular.module('yogaApp.workshopService', ['ngResource'])
+.service('WorkshopDataService', function($resource) {
+	this.workshops =  [
 			{
 				name: 'Ashtanga Arm Balances',
 				description: 'Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit, dolore aliqua non',
