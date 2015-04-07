@@ -2,7 +2,7 @@
 
 angular.module('yogaApp.home', ['ui.router'])
 
-.controller('homeCtrl', ['$scope', function($scope) {
+.controller('homeCtrl', ['$scope', '$q', function($scope, $q) {
 
  	$scope.showContactUs = function() {
  		

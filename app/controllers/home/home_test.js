@@ -1,16 +1,11 @@
-'use strict';
+describe('angularjs homepage todo list', function() {
+  it('should add have a hatha element', function() {
 
-describe('myApp.view1 module', function() {
+    element(by.model('todoText')).sendKeys('write a protractor test');
+    element(by.css('[value="add"]')).click();
 
-  beforeEach(module('myApp.view1'));
-
-  describe('view1 controller', function(){
-
-    it('should ....', inject(function($controller) {
-      //spec body
-      var view1Ctrl = $controller('View1Ctrl');
-      expect(view1Ctrl).toBeDefined();
-    }));
-
+    var todoList = element.all(by.repeater('todo in todos'));
+    expect(todoList.count()).toEqual(3);
+    expect(todoList.get(2).getText()).toEqual('write a protractor test');
   });
 });

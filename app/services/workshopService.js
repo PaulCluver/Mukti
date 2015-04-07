@@ -62,6 +62,21 @@ angular.module('yogaApp.workshopService', ['ngResource'])
 					city: 'Durban',
 					province: 'Kwa-zulu Natal'
 				}
+			},
+			{
+				name: 'Integral Kundalini Banda Work',
+				description: 'Boudin aliqua adipisicing rump corned beef. Eiusmod swine spare ribs reprehenderit culpa. Eiusmod swine spare ribs reprehenderit culpa.',
+				date: '1471323623006',
+				time: '08:30 am',
+				duration: 2,
+				price: 800,
+				location: 
+				{
+					address: '58 Gordon Road',
+					suburb: 'Morningside',
+					city: 'Durban',
+					province: 'Kwa-zulu Natal'
+				}
 			}
 		]; 
 })

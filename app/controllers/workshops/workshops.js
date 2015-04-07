@@ -8,7 +8,6 @@ angular.module('yogaApp.workshops', ['ui.router'])
 		$scope.orderByField = 'name';
   		$scope.reverseSort = false;
 
-		//$scope.sortOrder = 'customSort';
 		// $scope.getAllWorkshops = function()
 		// {
 		// 	$scope.workshops =  WorkshopService.getAllWorkshops();
