@@ -2,29 +2,77 @@
 <img src="http://placehold.it/1000x300&text=[img]"/>
 <h4>Workshops</h4>
 <div class="row">
-  <div class="large-3 columns">
-    <select ng-model="customSort">
-      <option value="">-- Sort By --</option>
-      <option value="date">Date</option>
-      <option value="price">Price</option>
-      <option value="duration">Duration</option>
-    </select>    
-  </div>
   <div class="large-12 columns">
     <table ng-controller="workshopCtrl">
       <thead>
         <tr>
-          <th width="250">Name</th>
-          <th width="250">Description</th>
-          <th width="150">Date</th>
-          <th width="100">Time</th>
-          <th width="50">Duration</th>
-          <th width="50">Price</th>
-          <th width="150">Address</th>
+          <th width="250">
+            <a href="#" ng-click="orderByField='name'; reverseSort = !reverseSort">
+              Name
+              <span ng-show="orderByField == 'name'">
+                <span ng-show="!reverseSort">^</span>
+                <span ng-show="reverseSort">v</span>
+              </span>
+            </a>
+          </th>
+          <th width="200">
+          <a href="#" ng-click="orderByField='description'; reverseSort = !reverseSort">
+              Description
+              <span ng-show="orderByField == 'description'">
+                <span ng-show="!reverseSort">^</span>
+                <span ng-show="reverseSort">v</span>
+              </span>
+            </a>
+          </th>
+          <th width="150">
+            <a href="#" ng-click="orderByField='date'; reverseSort = !reverseSort">
+              Date
+              <span ng-show="orderByField == 'date'">
+                <span ng-show="!reverseSort">^</span>
+                <span ng-show="reverseSort">v</span>
+              </span>
+            </a>
+          </th>
+          <th width="100">
+            <a href="#" ng-click="orderByField='time'; reverseSort = !reverseSort">
+              Time
+              <span ng-show="orderByField == 'time'">
+                <span ng-show="!reverseSort">^</span>
+                <span ng-show="reverseSort">v</span>
+              </span>
+            </a>
+          </th>
+          <th width="100">
+          <a href="#" ng-click="orderByField='duration'; reverseSort = !reverseSort">
+              Duration
+              <span ng-show="orderByField == 'duration'">
+                <span ng-show="!reverseSort">^</span>
+                <span ng-show="reverseSort">v</span>
+              </span>
+            </a>
+          </th>
+          <th width="50">
+            <a href="#" ng-click="orderByField='price'; reverseSort = !reverseSort">
+              Price
+              <span ng-show="orderByField == 'price'">
+                <span ng-show="!reverseSort">^</span>
+                <span ng-show="reverseSort">v</span>
+              </span>
+            </a>
+          </th>
+          <th width="150">
+           <a href="#" ng-click="orderByField='address'; reverseSort = !reverseSort">
+              Address
+              <span ng-show="orderByField == 'address'">
+                <span ng-show="!reverseSort">^</span>
+                <span ng-show="reverseSort">v</span>
+              </span>
+            </a>
+          </th>
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="workshop in workshops | orderBy: customSort">
+        <tr ng-repeat="workshop in workshops | orderBy: orderByField:reverseSort">
           <td valign="top">{{ workshop.name | uppercase}}</td>
           <td valign="top">{{ workshop.description}}</td>
           <td valign="top">{{ workshop.date |  date:'dd-MMM-yyyy'}}</td>
