@@ -19,7 +19,8 @@
 		</div>
 		<div class="row">
 			<div class="large-12 columns">
-				<label>Comment/Question</label><textarea ng-model="user.comment_question" value="{{$scope.user.comment_question}}"></textarea>
+				<label>Comment/Question</label>
+				<textarea ng-model="user.comment_question" name="comment_question" required=""></textarea>
 			</div>
 		</div>
 		<div class="row">
@@ -30,11 +31,12 @@
 			<div class="large-4 columns">
 				<div ng-show="form.$submitted || form.fName.$touched">
 					<div data-alert class="alert-box alert round">
+						<a href="#/contact" class="close" ng-click="reset(form)">&times;</a>
 						<div ng-show="form.fName.$error.required">Tell us your first name.</div>
 						<div ng-show="form.lName.$error.required">Tell us your last name.</div>
-						<span ng-show="form.email.$error.required">Tell us your email.</span>
-						<span ng-show="form.email.$error.email">This is not a valid email.</span>
-						<a href="#/contact" class="close">&times;</a>
+						<div ng-show="form.email.$error.required">Tell us your email.</div>
+						<div ng-show="form.email.$error.email">This is not a valid email.</div>
+						<div ng-show="form.comment_question.$error.required">Tell us your comment/question.</div>
 					</div>
 				</div>	
 			</div>

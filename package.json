@@ -15,9 +15,12 @@
     "gulp-install": "^0.4.0",
     "gulp-util": "^3.0.4",
     "http-server": "^0.6.1",
-    "karma": "~0.10",
+    "jasmine-core": "^2.2.0",
+    "karma": "^0.12.31",
+    "karma-chrome-launcher": "^0.1.7",
+    "karma-jasmine": "^0.3.5",
     "karma-junit-reporter": "^0.2.2",
-    "protractor": "^1.1.1",
+    "protractor": "^2.0.0",
     "shelljs": "^0.2.6",
     "ui-router": "0.0.1",
     "zurb-foundation-npm": "0.0.1"
@@ -33,6 +36,9 @@
     "update-webdriver": "webdriver-manager update",
     "preprotractor": "npm run update-webdriver",
     "protractor": "protractor e2e-tests/protractor.conf.js",
-    "update-index-async": "node -e \"require('shelljs/global'); sed('-i', /\\/\\/@@NG_LOADER_START@@[\\s\\S]*\\/\\/@@NG_LOADER_END@@/, '//@@NG_LOADER_START@@\\n' + sed(/sourceMappingURL=angular-loader.min.js.map/,'sourceMappingURL=bower_components/angular-loader/angular-loader.min.js.map','app/bower_components/angular-loader/angular-loader.min.js') + '\\n//@@NG_LOADER_END@@', 'app/index-async.html');\""
+    "update-index-async": "node -e \"require('shelljs/global'); sed('-i', /\\/\\/@@NG_LOADER_START@@[\\s\\S]*\\/\\/@@NG_LOADER_END@@/, '//@@NG_LOADER_START@@\\n' + sed(/sourceMappingURL=angular-loader.min.js.map/,'sourceMappingURL=bower_components/angular-loader/angular-loader.min.js.map','app/bower_components/angular-loader/angular-loader.min.js') + '\\n//@@NG_LOADER_END@@', 'app/index-async.html');\"",
+    "setup":"npm install && node node_modules/protractor/bin/webdriver-manager update",
+    "protractor-test": "node node_modules/protractor/bin/protractor conf.js",
+    "webdriver-start": "node node_modules/protractor/bin/webdriver-manager start"
   }
 }
