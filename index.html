@@ -18,7 +18,9 @@
 <body>
 	<div class="row">
 		<div class="large-3 columns">
-			<h1><img src="http://placehold.it/400x100&text=Logo"/></h1>
+			<ul class="left button-group">
+				<li><a ui-sref="home" class="button">MUKTI MOVEMENT</a></li>
+			</ul>
 		</div>
 		<div class="large-9 columns">
 			<ul class="right button-group">
@@ -31,11 +33,9 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="large-12 columns">
-			<p>
-				<div ui-view></div>
-			</p>
-		</div>
+		<p>
+			<div ui-view></div>
+		</p>
 	</div>	
 	<div class="row" ng-hide="showContactUs()" id="contact-us">
 		<div class="large-12 columns">
@@ -57,7 +57,7 @@
 			<hr/>
 			<div class="row">
 				<div class="large-6 columns">
-					<p>&copy; CCopyright Mukti Movement - 2015</p>
+					<p>&copy; Copyright Mukti Movement - 2015</p>
 				</div>
 				<div class="large-6 columns">
 					<ul class="inline-list right">
