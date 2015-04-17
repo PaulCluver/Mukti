@@ -1,0 +1,103 @@
+<div class="large-12 columns">
+  <img src="app/assets/img/landscape5.jpg" width="969" height="294" border="0" alt=""/>
+  <h4>Classes</h4>
+  <div class="row">
+    <div class="large-2 columns">
+      <form>
+        <input ng-model="classesFilter" type="text" placeholder="Filter classes by" autofocus />
+      </form>
+    </div>
+    <div class="large-12 columns">
+      <table ng-controller="classesCtrl">
+        <thead>
+          <tr>
+            <th width="100">
+              <a href="#" ng-click="orderByField='name'; reverseSort = !reverseSort">
+                Name
+                <span ng-show="orderByField == 'name'">
+                  <span ng-show="!reverseSort">^</span>
+                  <span ng-show="reverseSort">v</span>
+                </span>
+              </a>
+            </th>
+            <th width="200">
+            <a href="#" ng-click="orderByField='description'; reverseSort = !reverseSort">
+                Description
+                <span ng-show="orderByField == 'description'">
+                  <span ng-show="!reverseSort">^</span>
+                  <span ng-show="reverseSort">v</span>
+                </span>
+              </a>
+            </th>
+            <th width="150">
+              <a href="#" ng-click="orderByField='date'; reverseSort = !reverseSort">
+                Day
+                <span ng-show="orderByField == 'day'">
+                  <span ng-show="!reverseSort">^</span>
+                  <span ng-show="reverseSort">v</span>
+                </span>
+              </a>
+            </th>
+            <th width="100">
+              <a href="#" ng-click="orderByField='time'; reverseSort = !reverseSort">
+                Time
+                <span ng-show="orderByField == 'time'">
+                  <span ng-show="!reverseSort">^</span>
+                  <span ng-show="reverseSort">v</span>
+                </span>
+              </a>
+            </th>
+            <th width="100">
+            <a href="#" ng-click="orderByField='duration'; reverseSort = !reverseSort">
+                Duration
+                <span ng-show="orderByField == 'duration'">
+                  <span ng-show="!reverseSort">^</span>
+                  <span ng-show="reverseSort">v</span>
+                </span>
+              </a>
+            </th>
+            <th width="125">
+              <a href="#" ng-click="orderByField='dropInPrice'; reverseSort = !reverseSort">
+                Drop In Price
+                <span ng-show="orderByField == 'dropInPrice'">
+                  <span ng-show="!reverseSort">^</span>
+                  <span ng-show="reverseSort">v</span>
+                </span>
+              </a>
+            </th>
+            <th width="125">
+              <a href="#" ng-click="orderByField='monthlyPrice'; reverseSort = !reverseSort">
+                Monthly Price
+                <span ng-show="orderByField == 'monthlyPrice'">
+                  <span ng-show="!reverseSort">^</span>
+                  <span ng-show="reverseSort">v</span>
+                </span>
+              </a>
+            </th>
+            <th width="150">
+             <a href="#" ng-click="orderByField='address'; reverseSort = !reverseSort">
+                Address
+                <span ng-show="orderByField == 'address'">
+                  <span ng-show="!reverseSort">^</span>
+                  <span ng-show="reverseSort">v</span>
+                </span>
+              </a>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="class in classes | orderBy: orderByField:reverseSort | filter: classesFilter">
+            <td valign="top">{{ class.name | uppercase}}</td>
+            <td valign="top">{{ class.description}}</td>
+            <td valign="top">{{ class.day |  date:'dd-MMM-yyyy'}}</td>
+            <td valign="top">{{ class.time}}</td>
+            <td valign="top">{{ class.duration | durations}}</td>
+            <td valign="top">{{ class.dropInPrice | currency : 'R'}}</td>
+            <td valign="top">{{ class.monthlyPrice | currency : 'R'}}</td>
+            <td valign="top">{{class.location.address}}, {{class.location.suburb}}, {{class.location.city}}, {{class.location.province}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
