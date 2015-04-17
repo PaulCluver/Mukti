@@ -8,6 +8,12 @@ var yogaApp =  angular.module('yogaApp', [
   'yogaApp.contact',
   'yogaApp.workshopService'
  ])
+.directive('userinfo', function() {
+	var directive = {};
+	directive.restrict = 'E'; /* restrict this directive to elements */
+	directive.template = "User: {{user.firstName}} {{user.lastName}}";
+	return directive;
+})
 .controller('appCtrl', ['$scope', function($scope) {
 
  	$scope.showContactUs = function() {

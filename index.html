@@ -4,6 +4,7 @@
 <html ng-app="yogaApp" ng-controller="appCtrl">
 <head>
 	<link rel="stylesheet" href="node_modules/zurb-foundation-npm/css/foundation.css"/>
+	<link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.css"/>
 	<script src="node_modules/zurb-foundation-npm/js/modernizr.js"></script>
 	<script src="node_modules/angular/angular.js"></script>
 	<script src="node_modules/ui-router/angular-ui-router.js"></script>
@@ -16,21 +17,38 @@
 	<script src="app/services/workshopService.js"></script>
 </head>
 <body>
-	<div class="row">
-		<div class="large-3 columns">
-			<ul class="left button-group">
-				<li><a ui-sref="home" class="button">MUKTI MOVEMENT</a></li>
-			</ul>
-		</div>
-		<div class="large-9 columns">
-			<ul class="right button-group">
-				<li><a ui-sref="home" class="button">Home</a></li>
-				<li><a ui-sref="hatha" class="button">Hatha</a></li>
-				<li><a ui-sref="ashtanga" class="button">Ashtanga</a></li>
-				<li><a ui-sref="vinyasa" class="button">Vinyasa</a></li>
-				<li><a ui-sref="workshops" class="button">Workshops</a></li>
-			</ul>
-		</div>
+<div class="row">
+	<div class="contain-to-grid">
+		<nav class="top-bar" data-topbar role="navigation" data-options="is_hover: false">
+		  <ul class="title-area">
+		    <li class="name">
+		      <h1>
+		      	<a ui-sref="home">
+			      	<i class="fa fa-sun-o"></i>&nbsp;<i class="fa fa-moon-o"></i>&nbsp;<i class="fa fa-star"></i>&nbsp;MUKTI MOVEMENT
+		      	</a>
+		      </h1>
+		    </li>		     
+		  </ul>
+
+		  <section class="top-bar-section">
+		    <!-- Right Nav Section -->
+		    <ul class="right">
+		      <li><a ui-sref="hatha">Hatha</a></li>
+		      <li><a ui-sref="ashtanga">Ashtanga</a></li>
+		      <li><a ui-sref="vinyasa">Vinyasa</a></li>
+		      <li><a ui-sref="workshops">Workshops</a></li>
+		      <li class="has-dropdown">
+		        <a href="#"><i class="fa fa-bars"></i></a>
+		        <ul class="dropdown">
+		          <li><a href="login"><i class="fa fa-twitter"></i>&nbsp;&nbsp;Login</a></li>
+		          <li><a href="register"><i class="fa fa-key"></i>&nbsp;&nbsp;Register</a></li>
+		          <li><a href="#"><i class="fa fa-wordpress"></i>&nbsp;&nbsp;Blog</a></li>
+		          <li><a href="#"><i class="fa fa-twitter"></i>&nbsp;&nbsp;Twitter</a></li>
+		        </ul>
+		      </li>
+		    </ul>		    
+		  </section>
+		</nav>
 	</div>
 	<div class="row">
 		<p>
@@ -38,14 +56,15 @@
 		</p>
 	</div>	
 	<div class="row" ng-hide="showContactUs()" id="contact-us">
+		
 		<div class="large-12 columns">
 			<div class="panel">
 				<h4>Get in touch!</h4>
 				<div class="row">
-					<div class="large-9 columns">
-						<p>We'd love to hear from you, you attractive person you.</p>
+					<div class="large-8 columns">
+						<p>We'd love to hear from you....</p>
 					</div>
-					<div class="large-3 columns">
+					<div class="large-4 columns">
 						<a ui-sref="contact" class="radius button right">Contact Us</a>
 					</div>
 				</div>
@@ -61,21 +80,21 @@
 				</div>
 				<div class="large-6 columns">
 					<ul class="inline-list right">
-						<li><a ui-sref="home">Home</a></li>
-						<li><a ui-sref="hatha">Hatha</a></li>
-						<li><a ui-sref="ashtanga">Ashtanga</a></li>
-						<li><a ui-sref="vinyasa">Vinyasa</a></li>
-						<li><a ui-sref="workshops">Workshops</a></li>
-					</ul>
+						<li><a ui-sref="home"><i class="fa fa-home fa-fw"></i>&nbsp;Home</a></a></li>
+						<li><a ui-sref="#"><i class="fa fa-wordpress fa-fw"></i>&nbsp;Blog</a></li>
+						<li><a ui-sref="#"><i class="fa fa-twitter fa-fw"></i>&nbsp;Twitter</a></li>
+					</ul>					
 				</div>
 			</div>
 		</div>
 	</footer>
+</div>
 	
-	<script src="node_modules/zurb-foundation-npm/js/jquery.js"></script>
-	<script src="node_modules/zurb-foundation-npm/js/foundation/foundation.js"></script>
-	<script>
-		$(document).foundation();
-	</script>	
+<script src="node_modules/zurb-foundation-npm/js/jquery.js"></script>
+<script src="node_modules/zurb-foundation-npm/js/foundation/foundation.js"></script>
+<script src="node_modules/zurb-foundation-npm/js/foundation/foundation.topbar.js"></script>
+<script>
+	$(document).foundation();
+</script>	
 </body>
 </html>
