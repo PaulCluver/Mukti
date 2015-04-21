@@ -13,15 +13,6 @@ var yogaApp =  angular.module('yogaApp', [
   'yogaApp.workshopService',
   'yogaApp.classesService'
  ])
-.directive('myDomDirective', function() {
-	return {
-        link: function ($scope, element, attrs) {
-            element.bind('click', function () {
-                element.html('<li><a ui-sref="logout"><i class="fa fa-sign-out"></i>&nbsp;&nbsp;Logout</a></li>');
-            });
-        }
-    };
-})
 .controller('appCtrl', ['$scope', function($scope) {
 
  	$scope.showContactUs = function() {
@@ -31,16 +22,7 @@ var yogaApp =  angular.module('yogaApp', [
  			$scope.showContactUsBoolean = true;
  		}
  		return $scope.showContactUsBoolean;
- 	};
-
- 	$scope.jakob = {};
-    $scope.jakob.firstName = "Jakob";
-    $scope.jakob.lastName  = "Jenkov";
-
-    $scope.john = {};
-    $scope.john.firstName = "John";
-    $scope.john.lastName  = "Doe";
- 	
+ 	}; 	
 }])
 .config(function($stateProvider, $urlRouterProvider) {
   	$urlRouterProvider.otherwise("/home");

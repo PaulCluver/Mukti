@@ -54,49 +54,49 @@ angular.module('yogaApp.register', ['ui.router'])
 	};
 
 }])
-.directive('registrationInput', function() {
-	return {
-		restrict: 'A',
-		require: ['?ngModel', '?^withErrors'],
-		scope: true,
-		link: function(scope, element, attrs, ctrls) {
-			var ngModelCtrl = ctrls[0];
-			var withErrorsCtrl = ctrls[1];
-			var fieldName = attrs.name;
+.directive('input', function() {
 
-			if (!ngModelCtrl || !withErrorsCtrl) return;
+return {
+	restrict: 'E',
+	require: ['?ngModel', '?^withErrors'],
+	scope: true,
+	link: function(scope, element, attrs, ctrls) {
+		var ngModelCtrl = ctrls[0];
+		var withErrorsCtrl = ctrls[1];
+		var fieldName = attrs.name;
 
-			// Watch for model changes and set errors if any
-			scope.$watch(attrs.ngModel, function() {
-				if (ngModelCtrl.$dirty && ngModelCtrl.$invalid) {
-					withErrorsCtrl.setErrorsFor(fieldName, errorMessagesFor(ngModelCtrl));
-				} else if (ngModelCtrl.$valid) {
-					withErrorsCtrl.clearErrorsFor(fieldName);
-				}
-			});
+		if (!ngModelCtrl || !withErrorsCtrl) return;
 
-			// Mapping Angular validation errors to a message
-			var errorMessages = {
-				required: 'This field is required',
-				pattern: 'This field does not match pattern',
-				minlength: 'This field is too long',
-				maxlength: 'This field is too short'
-				// etc.
-			};
-
-			function errorMessagesFor(ngModelCtrl) {
-				return Object.keys(ngModelCtrl.$error)
-				.map(function(key) {
-					if (ngModelCtrl.$error[key]) return errorMessages[key];
-					else return null;
-				})
-				.filter(function(msg) {
-					return msg !== null;
-				});
+		// Watch for model changes and set errors if any
+		scope.$watch(attrs.ngModel, function() {
+			if (ngModelCtrl.$dirty && ngModelCtrl.$invalid) {
+				withErrorsCtrl.setErrorsFor(fieldName, errorMessagesFor(ngModelCtrl));
+			} else if (ngModelCtrl.$valid) {
+				withErrorsCtrl.clearErrorsFor(fieldName);
 			}
+		});
+
+		// Mapping Angular validation errors to a message
+		var errorMessages = {
+			required: 'This field is required',
+			pattern: 'This field does not match pattern',
+			minlength: 'This field is too long',
+			maxlength: 'This field is too short'
+			// etc.
+		};
+
+		function errorMessagesFor(ngModelCtrl) {
+			return Object.keys(ngModelCtrl.$error).
+			map(function(key) {
+				if (ngModelCtrl.$error[key]) return errorMessages[key];
+				else return null;
+			}).
+			filter(function(msg) {
+				return msg !== null;
+			});
 		}
 	}
-})
+}})
 .directive('fielderrors', function() {
 	return {
 		restrict: 'E',
@@ -144,5 +144,4 @@ angular.module('yogaApp.register', ['ui.router'])
 	function fakeUserCreate() {
 		return $q.reject({username: ['This name is taken']});
 	}
-
 }]);

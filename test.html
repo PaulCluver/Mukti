@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html ng-app="App">
+<head>
+	<title></title>
+	<script src="node_modules/angular/angular.js"></script>
+	<script>
+	var App = angular.module('App', []);
+ 
+	App.directive('login', function() {
+	  return {
+	    restrict: 'A',
+	    controller: function($scope, $element, $attrs) {
+	      $scope.state = 'loggedOut';
+	 
+	      $scope.toggle = function() {
+	        $scope.$apply(function() {
+	          $scope.state = ($scope.state === 'loggedOut' ? 'loggedIn' : 'loggedOut');
+	        });
+	      };
+	 
+	      this.getState = function() {
+	        return $scope.state;
+	      };
+	    },
+	    link: function(scope, element, attrs) {
+	      element.bind('click', function() {
+	        scope.toggle();
+	      });
+	 
+	      scope.$watch('state', function(newVal, oldVal) {
+	        if (newVal === 'loggedOut') {
+	          element.addClass('disabled');
+	        } else {
+	          element.removeClass('disabled');
+	        }
+	      });
+	    }  
+	  };
+	});
+	 
+	App.directive('loginStatus', function() {
+	  return {
+	    restrict: 'A',
+	    require: '^login',
+	    link: function(scope, element, attrs, controller) {
+	      scope.$watch(function() {
+	        scope.userLoginStatus = controller.getState();
+	      });
+	    }
+	  };
+	});
+	</script>
+</head>
+<body>
+<div class="btn btn-success" login>{{state}}<div lightbulb class='loginStatus' ng-class="bulb"></div></div>
+</body>
+</html>
