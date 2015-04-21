@@ -2,25 +2,4 @@
 	<img src="assets/img/landscape2.jpg" width="969" height="294" border="0" alt=""/>
 	<h4>Register</h4>
 	
-	<form ng-controller="registerCtrl as c" name="registerForm" ng-submit="c.register(user)" novalidate>
-		<fieldset>
-			<label>Username:</label>
-			<input registrationInput name="username" type="text" ng-model="user.username" required />
-			<div ng-show="registerForm.username.$dirty && registerForm.username.$invalid">
-				<small class="error" ng-show="signupForm.username.$error.required">
-					This field is required
-				</small>
-			</div>
-
-			<label>Password:</label>
-			<input registrationInput name="password" type="password" ng-model="user.password" required />
-			<div ng-show="registerForm.password.$dirty && registerForm.password.$invalid">
-				<small class="error" ng-show="registerForm.password.$error.required">
-					This field is required
-				</small>
-			</div>
-
-			<button ng-disabled="registerForm.$invalid">Submit</button>
-		</fieldset>
-	</form>
 </div>	
