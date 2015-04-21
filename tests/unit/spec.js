@@ -4,12 +4,12 @@ describe('TestOneController', function () {
   $scope = null;
 
   beforeEach(function () {
-    module('myApp');
+    module('yogaApp');
   });
 
   beforeEach(inject(function ($controller, $rootScope) {
     $scope = $rootScope.$new();
-    controller = $controller('TestOneController', {
+    controller = $controller('workshopCtrl', {
       $scope: $scope
     });
   }));

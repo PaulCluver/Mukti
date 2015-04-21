@@ -6,8 +6,6 @@ Routing (UI-Router)	:	config(function($stateProvider, $urlRouterProvider)
 Built-in Directives	: 	ng-hide="showContactUs()"
 Custom Directives	: 	TODO
 Filters				:	| filter: workshopFilter	
-Testing				:	npm run-script webdriver-start, npm run-script protractor-test, 
+Testing				:	gulp unit and gulp e2e
 Promises			:	TODO
 Calling services 	:	controller('workshopCtrl', ['$scope', 'WorkshopService', function($scope, WorkshopService) 
-
-
