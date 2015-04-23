@@ -1,82 +1,105 @@
-'use strict';
+var controller = null;
+    $scope = null;
 
-// Declare app level module which depends on views, and components
-var yogaApp =  angular.module('yogaApp', [
-  'ui.router',
-  'mgcrea.ngStrap',
-  'yogaApp.home',
-  'yogaApp.workshops',
-  'yogaApp.classes',
-  'yogaApp.login',
-  'yogaApp.logout',
-  'yogaApp.register',
-  'yogaApp.contact',
-  'yogaApp.workshopService',
-  'yogaApp.classesService'
- ])
-.controller('appCtrl', ['$scope', function($scope) {
+    beforeEach(function() {
+        module('yogaApp');
+    });
 
- 	$scope.showContactUs = function() {
- 		$scope.showContactUsBoolean = false;
- 		if (location.hash == '#/contact')
- 		{
- 			$scope.showContactUsBoolean = true;
- 		}
- 		return $scope.showContactUsBoolean;
- 	}; 	
-}])
-.config(function($stateProvider, $urlRouterProvider) {
-  	$urlRouterProvider.otherwise("/home");
+    beforeEach(inject(function($controller, $rootScope, $templateCache, $compile) {
+        $scope = $rootScope.$new();
+        controller = $controller('contactCtrl', {
+            $scope: $scope
+        });
 
-	$stateProvider
-		.state('home', {
-			url: "/home",
-			templateUrl: "controllers/home/home.html",
-			controller: "homeCtrl"
-		})
+    }));
 
-		.state('hatha', {
-			url: "/hatha",
-			templateUrl: "controllers/yoga/hatha/hatha.html"
-		})
-		
-		.state('ashtanga', {
-			url: "/ashtanga",
-			templateUrl: "controllers/yoga/ashtanga/ashtanga.html"
-		})
-		
-		.state('vinyasa', {
-			url: "/vinyasa",
-			templateUrl: "controllers/yoga/vinyasa/vinyasa.html"
-		})
+    it('initially has an default contactDetails object', function() {
+        assert.isObject($scope.contactDetails);
+    });
 
-		.state('workshops', {
-			url: "/workshops",
-			templateUrl: "controllers/schedule/workshops/workshops.html"
-		})
+    it('should set the user on the contactDetails when given inputs', function() {
+        var user = {
+            fname : 'Test',
+            lname: 'User',
+            email: 'test@test.com',
+            comment_question: 'This is a comment'
+        };
 
-		.state('classes', {
-			url: "/classes",
-			templateUrl: "controllers/schedule/classes/classes.html"
-		})
-		
-		.state('contact', {
-			url: "/contact",
-			templateUrl: "controllers/user/contact/contact.html"
-		})
+        $scope.update(user);
+        assert.deepEqual(user, $scope.contactDetails);
+    });
 
-		.state('login', {
-			url: "/login",
-			templateUrl: "controllers/user/login/login.html"
-		})
+    it('should clear the contact details when reset', function() {
+        var user = {
+            fname : 'Test',
+            lname: 'User',
+            email: 'test@test.com',
+            comment_question: 'This is a comment'
+        };
 
-		.state('logout', {
-			url: "/logout",
-			templateUrl: "controllers/user/logout/logout.html"
-		})
+        var clearUser = {};
 
-		.state('register', {
-			url: "/register",
-			templateUrl: "controllers/user/register/register.html"
-		})
-});
+        //$scope.reset(user);
+        //assert.deepEqual(clearUser, $scope.contactDetails);
+    });
+
+
+    .....
+
+
+     // var authenticate = function(credentials, callback) {
+        //     var headers = credentials ? {authorization : "Basic " + btoa(credentials.username + ":" + credentials.password) } : {};
+
+        //     $http.get('/#/login', {headers : headers}).success(function(credentials) {
+
+        //         if (credentials.username) {
+        //             $rootScope.authenticated = true;
+        //         } 
+        //         else 
+        //         {
+        //             $rootScope.authenticated = false;
+        //         }
+        //         callback && callback();
+        //     }).error(function() {
+        //         $rootScope.authenticated = false;
+        //         callback && callback();
+        //     });
+
+        //     console.log('rootScope.authenticated : ', $rootScope.authenticated );
+        // }
+
+        var authenticate = function(credentials, callback) {
+
+            $http.get('/#/login').success(function(credentials) {
+                console.log(credentials);
+
+                if (credentials.username) {
+                    $rootScope.authenticated = true;
+                } 
+                else {
+                    $rootScope.authenticated = false;
+                }
+                callback && callback();
+            }).error(function() {
+                $rootScope.authenticated = false;
+                callback && callback();
+            });
+
+            console.log('rootScope.authenticated : ', $rootScope.authenticated );
+        };
+        
+        authenticate();
+        $scope.credentials = {};
+        $scope.login = function() {
+            authenticate($scope.credentials, function() {
+                if ($rootScope.authenticated) {
+                    $location.path("/#/home");
+                    $scope.error = false;
+                } 
+                else 
+                {
+                    $location.path("/#/login");
+                    $scope.error = true;
+                }
+            });
+        };

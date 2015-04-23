@@ -29,15 +29,12 @@
 				<input class="button" href="#/contact" type="submit" ng-click="update(user)" value="Send" />
 			</div>
 			<div class="large-4 columns">
-				<div ng-show="form.$submitted || form.fName.$touched">
-					<div data-alert class="alert-box alert round">
-						<a href="#/contact" class="close" ng-click="reset(form)">&times;</a>
-						<div ng-show="form.fName.$error.required">Tell us your first name.</div>
-						<div ng-show="form.lName.$error.required">Tell us your last name.</div>
-						<div ng-show="form.email.$error.required">Tell us your email.</div>
-						<div ng-show="form.email.$error.email">This is not a valid email.</div>
-						<div ng-show="form.comment_question.$error.required">Tell us your comment/question.</div>
-					</div>
+				<ul ng-show="form.$submitted">
+					<li ng-show="form.fName.$error.required">Tell us your first name.</li>
+					<li ng-show="form.lName.$error.required">Tell us your last name.</li>
+					<li ng-show="form.email.$error.required">Tell us your email.</li>
+					<li ng-show="form.email.$error.email">This is not a valid email.</li>
+					<li ng-show="form.comment_question.$error.required">Tell us your comment/question.</li>
 				</div>	
 			</div>
 		</div>

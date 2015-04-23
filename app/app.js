@@ -2,57 +2,142 @@
 
     'use strict';
 
-    var yogaApp = angular.module('yogaApp', ['ui.router', 'mgcrea.ngStrap', 'ngResource']);
+    var yogaApp = angular.module('yogaApp', ['ui.router', 'mgcrea.ngStrap', 'ngResource', 'ui.bootstrap']);
 
     yogaApp.constant('VERSION', "0.1");
 
-    yogaApp.config(function($stateProvider, $urlRouterProvider) {
+    yogaApp.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
         $urlRouterProvider.otherwise("/home");
         $stateProvider
             .state('home', {
                 url: "/home",
                 templateUrl: "partials/home/home.html",
-                controller: "homeCtrl"
+                controller: "homeCtrl",
+                data: {
+                    requireLogin: false
+                }
             })
             .state('hatha', {
                 url: "/hatha",
-                templateUrl: "partials/yoga/hatha/hatha.html"
+                templateUrl: "partials/yoga/hatha/hatha.html",
+                data: {
+                    requireLogin: false
+                }
             })
             .state('ashtanga', {
                 url: "/ashtanga",
-                templateUrl: "partials/yoga/ashtanga/ashtanga.html"
+                templateUrl: "partials/yoga/ashtanga/ashtanga.html",
+                data: {
+                    requireLogin: false
+                }
             })
             .state('vinyasa', {
                 url: "/vinyasa",
-                templateUrl: "partials/yoga/vinyasa/vinyasa.html"
+                templateUrl: "partials/yoga/vinyasa/vinyasa.html",
+                data: {
+                    requireLogin: false
+                }
             })
             .state('workshops', {
                 url: "/workshops",
                 templateUrl: "partials/schedule/workshops/workshops.html",
-                controller: "workshopCtrl"
+                controller: "workshopCtrl",
+                data: {
+                    requireLogin: false
+                }
             })
             .state('classes', {
                 url: "/classes",
                 templateUrl: "partials/schedule/classes/classes.html",
-                controller: "classesCtrl"
+                controller: "classesCtrl",
+                data: {
+                    requireLogin: false
+                }
             })
             .state('contact', {
                 url: "/contact",
                 templateUrl: "partials/user/contact/contact.html",
-                controller: "contactCtrl"
+                controller: "contactCtrl",
+                data: {
+                    requireLogin: false
+                }
             })
             .state('login', {
                 url: "/login",
-                templateUrl: "partials/user/login/login.html"
+                templateUrl: "partials/user/login/login.html",
+                data: {
+                    requireLogin: false
+                }
             })
             .state('logout', {
                 url: "/logout",
-                templateUrl: "partials/user/logout/logout.html"
+                templateUrl: "partials/user/logout/logout.html",
+                data: {
+                    requireLogin: false
+                }
             })
             .state('register', {
                 url: "/register",
-                templateUrl: "partials/user/register/register.html"
+                templateUrl: "partials/user/register/register.html",
+                data: {
+                    requireLogin: false
+                }
             })
+            .state('tutorials', {
+                url: "/tutorials",
+                templateUrl: "partials/yoga/tutorials/tutorials.html",
+                data: {
+                    requireLogin: true
+                }
+            })
+
+        $httpProvider.interceptors.push(function($timeout, $q, $injector) {
+            var loginService, $http, $state;
+
+            $timeout(function() {
+                loginService = $injector.get('loginService');
+                $http = $injector.get('$http');
+                $state = $injector.get('$state');
+            });
+
+            return {
+                responseError: function(rejection) {
+                    if (rejection.status !== 401) {
+                        return rejection;
+                    }
+
+                    var deferred = $q.defer();
+
+                    loginService()
+                        .then(function() {
+                            deferred.resolve($http(rejection.config));
+                        })
+                        .catch(function() {
+                            $state.go('home');
+                            deferred.reject(rejection);
+                        });
+
+                    return deferred.promise;
+                }
+            };
+        });
+    });
+
+    yogaApp.run(function($rootScope, $state, loginService) {
+        $rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
+            var requireLogin = toState.data.requireLogin;
+
+            if (requireLogin && typeof $rootScope.currentUser === 'undefined') {
+                event.preventDefault();
+                loginService()
+                    .then(function() {
+                        return $state.go(toState.name, toParams);
+                    })
+                    .catch(function() {
+                        return $state.go('home');
+                    });
+            }
+        });
     });
 
     yogaApp.service('ClassesDataService', function($resource) {
@@ -182,6 +267,37 @@
         };
     });
 
+    yogaApp.service('loginService', function($modal, $rootScope) {
+        function assignCurrentUser(user) {
+            $rootScope.currentUser = user;
+            return user;
+        }
+
+        return function() {
+            var instance = $modal.open({
+                templateUrl: 'partials/user/login/login.html',
+                controller: 'loginCtrl',
+                controllerAs: 'loginCtrl'
+            })
+            return instance.result.then(assignCurrentUser);
+        };
+    });
+
+    yogaApp.factory("UsersApi", function($q) {
+        function _login(email, password) {
+            var d = $q.defer();
+            setTimeout(function() {
+                if (email == password)
+                    d.resolve();
+                //defer.reject();
+            }, 100);
+            return d.promise
+        }
+        return {
+            login: _login
+        };
+    });
+
     yogaApp.controller('appCtrl', function($scope) {
         $scope.showContactUs = function() {
             $scope.showContactUsBoolean = false;
@@ -201,8 +317,7 @@
                 $scope.myBoolean = true;
             }
             return $scope.myBoolean;
-        };
-
+        };       
     });
 
     yogaApp.controller('contactCtrl', function($scope) {
@@ -221,6 +336,16 @@
         };
 
         $scope.reset();
+    });
+
+    yogaApp.controller('loginCtrl', function($scope, UsersApi) {
+        this.cancel = $scope.$dismiss;
+
+        this.submit = function(email, password) {
+            UsersApi.login(email, password).then(function(user) {
+                $scope.$close(user);
+            });
+        };
     });
 
     yogaApp.controller('classesCtrl', ['$scope', 'ClassesService', function($scope, ClassesService) {
