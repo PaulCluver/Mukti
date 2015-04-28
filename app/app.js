@@ -2,11 +2,12 @@
 
     'use strict';
 
-    var yogaApp = angular.module('yogaApp', ['ui.router', 'mgcrea.ngStrap', 'ngResource', 'ui.bootstrap']);
+    var yogaApp = angular.module('yogaApp', ['ui.router', 'mgcrea.ngStrap', 'ngResource', 'mm.foundation', 'ngCookies']);
 
     yogaApp.constant('VERSION', "0.1");
 
     yogaApp.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
+        
         $urlRouterProvider.otherwise("/home");
         $stateProvider
             .state('home', {
@@ -121,9 +122,11 @@
                 }
             };
         });
+
     });
 
     yogaApp.run(function($rootScope, $state, loginService) {
+        
         $rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
             var requireLogin = toState.data.requireLogin;
 
@@ -140,7 +143,9 @@
         });
     });
 
+
     yogaApp.service('ClassesDataService', function($resource) {
+        
         this.classes = [{
             name: 'Ashtanga',
             description: 'Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit, dolore aliqua non',
@@ -184,15 +189,19 @@
                 province: 'Kwa-zulu Natal'
             }
         }];
+
     });
 
     yogaApp.service('ClassesService', function(ClassesDataService) {
+        
         this.getAllClasses = function() {
             return ClassesDataService.classes;
         };
+
     });
 
     yogaApp.service('WorkshopDataService', function($resource) {
+        
         this.workshops = [{
             name: 'Ashtanga Arm Balances',
             description: 'Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit, dolore aliqua non',
@@ -259,46 +268,62 @@
                 province: 'Kwa-zulu Natal'
             }
         }];
+
     });
 
     yogaApp.service('WorkshopService', function(WorkshopDataService) {
+        
         this.getAllWorkshops = function() {
             return WorkshopDataService.workshops;
         };
+
     });
 
-    yogaApp.service('loginService', function($modal, $rootScope) {
+    yogaApp.service('loginService', function($rootScope, $modal) {
+
         function assignCurrentUser(user) {
             $rootScope.currentUser = user;
             return user;
         }
-
+        
         return function() {
             var instance = $modal.open({
                 templateUrl: 'partials/user/login/login.html',
                 controller: 'loginCtrl',
                 controllerAs: 'loginCtrl'
             })
+
             return instance.result.then(assignCurrentUser);
         };
+
     });
 
-    yogaApp.factory("UsersApi", function($q) {
+    yogaApp.factory("UsersApi", function($q, $cookies) {
+        
         function _login(email, password) {
             var d = $q.defer();
             setTimeout(function() {
-                if (email == password)
+                if (email == 'paulcl@sahomeloans.com' && password == 'secret') {
+                    $cookies.loggedIn = 1;
                     d.resolve();
-                //defer.reject();
+                }
+                else {
+                    cookies.loggedIn = 0;
+                    d.reject('Invalid Credentials');
+                }
             }, 100);
             return d.promise
         }
         return {
             login: _login
         };
+
     });
 
-    yogaApp.controller('appCtrl', function($scope) {
+    yogaApp.controller('appCtrl', function($scope, $cookies) {
+        
+
+
         $scope.showContactUs = function() {
             $scope.showContactUsBoolean = false;
             if (location.hash == '#/contact') {
@@ -306,9 +331,31 @@
             }
             return $scope.showContactUsBoolean;
         };
+
+        $scope.showLoginLink = function() {
+            $scope.showLogin = false;
+            if ($cookies['loggedIn'] === 'undefined') {
+                $scope.showLogin = true;
+            }
+            return $scope.showLogin;
+        };
+
+         $scope.showLogoutLink = function() {
+            $scope.showLogout = false;
+            if ($cookies['loggedIn'] === '1') {
+                $scope.showLogout = true;
+            }
+            return $scope.showLogout;
+        };
+
+        $scope.logout = function() {
+            $cookies.loggedIn = undefined;
+        };
+
     });
 
     yogaApp.controller('homeCtrl', function($scope) {
+        
         $scope.showContactUs = function() {
 
             $scope.myBoolean = false;
@@ -317,10 +364,11 @@
                 $scope.myBoolean = true;
             }
             return $scope.myBoolean;
-        };       
+        };         
     });
 
     yogaApp.controller('contactCtrl', function($scope) {
+        
         $scope.contactDetails = {};
 
         $scope.update = function(user) {
@@ -336,6 +384,7 @@
         };
 
         $scope.reset();
+
     });
 
     yogaApp.controller('loginCtrl', function($scope, UsersApi) {
@@ -346,21 +395,27 @@
                 $scope.$close(user);
             });
         };
+
     });
 
     yogaApp.controller('classesCtrl', ['$scope', 'ClassesService', function($scope, ClassesService) {
+       
         $scope.classes = ClassesService.getAllClasses();
         $scope.orderByField = 'name';
         $scope.reverseSort = false;
+
     }]);
 
     yogaApp.controller('workshopCtrl', ['$scope', 'WorkshopService', function($scope, WorkshopService) {
+        
         $scope.workshops = WorkshopService.getAllWorkshops();
         $scope.orderByField = 'name';
         $scope.reverseSort = false;
+
     }]);
 
     yogaApp.filter('durations', function() {
+        
         return function(duration) {
             switch (duration) {
                 case 1:
@@ -373,6 +428,7 @@
                     return "Full day";
             }
         }
+
     });
 
 }());
