@@ -287,28 +287,41 @@
         }
         
         return function() {
+                                
             var instance = $modal.open({
                 templateUrl: 'partials/user/login/login.html',
                 controller: 'loginCtrl',
                 controllerAs: 'loginCtrl'
-            })
+            });
 
-            return instance.result.then(assignCurrentUser);
+            if ($rootScope.user != undefined) {
+                console.log('not undefined');
+                var user = {
+                    email: $rootScope.user.email,
+                    password: rootScope.user.password
+                }
+            }
+            else {
+                console.log('undefined');
+                var user = {
+                    email: '',
+                    password: ''
+                }
+            }
+            return instance.result.then(assignCurrentUser(user));
         };
 
     });
 
-    yogaApp.factory("UsersApi", function($q, $cookies) {
+    yogaApp.factory("UsersApi", function($q) {
         
         function _login(email, password) {
             var d = $q.defer();
             setTimeout(function() {
-                if (email == 'paulcl@sahomeloans.com' && password == 'secret') {
-                    $cookies.loggedIn = 1;
+                if (email === 'paulcl@sahomeloans.com' && password === 'secret') {
                     d.resolve();
                 }
                 else {
-                    cookies.loggedIn = 0;
                     d.reject('Invalid Credentials');
                 }
             }, 100);
@@ -320,10 +333,8 @@
 
     });
 
-    yogaApp.controller('appCtrl', function($scope, $cookies) {
+    yogaApp.controller('appCtrl', function($rootScope, $scope, $cookies) {
         
-
-
         $scope.showContactUs = function() {
             $scope.showContactUsBoolean = false;
             if (location.hash == '#/contact') {
@@ -334,7 +345,8 @@
 
         $scope.showLoginLink = function() {
             $scope.showLogin = false;
-            if ($cookies['loggedIn'] === 'undefined') {
+
+            if ($rootScope.currentUser === undefined) {
                 $scope.showLogin = true;
             }
             return $scope.showLogin;
@@ -342,14 +354,14 @@
 
          $scope.showLogoutLink = function() {
             $scope.showLogout = false;
-            if ($cookies['loggedIn'] === '1') {
+            if ($rootScope.currentUser != undefined) {
                 $scope.showLogout = true;
             }
             return $scope.showLogout;
         };
 
         $scope.logout = function() {
-            $cookies.loggedIn = undefined;
+            $rootScope.currentUser = undefined;
         };
 
     });
@@ -387,10 +399,16 @@
 
     });
 
-    yogaApp.controller('loginCtrl', function($scope, UsersApi) {
+    yogaApp.controller('loginCtrl', function($scope, $rootScope, UsersApi) {
         this.cancel = $scope.$dismiss;
 
         this.submit = function(email, password) {
+            
+            $rootScope.user = {
+                userEmail : email,
+                userPassword: password
+            };
+
             UsersApi.login(email, password).then(function(user) {
                 $scope.$close(user);
             });
