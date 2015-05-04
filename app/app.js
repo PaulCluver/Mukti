@@ -22,29 +22,21 @@
                 url: "/hatha",
                 templateUrl: "partials/yoga/hatha/hatha.html",
                 data: {
-                    requireLogin: true
+                    requireLogin: false
                 }
             })
             .state('ashtanga', {
                 url: "/ashtanga",
                 templateUrl: "partials/yoga/ashtanga/ashtanga.html",
                 data: {
-                    requireLogin: true
+                    requireLogin: false
                 }
             })
             .state('vinyasa', {
                 url: "/vinyasa",
                 templateUrl: "partials/yoga/vinyasa/vinyasa.html",
                 data: {
-                    requireLogin: true
-                }
-            })
-            .state('workshops', {
-                url: "/workshops",
-                templateUrl: "partials/schedule/workshops/workshops.html",
-                controller: "workshopCtrl",
-                data: {
-                    requireLogin: true
+                    requireLogin: false
                 }
             })
             .state('classes', {
@@ -52,7 +44,7 @@
                 templateUrl: "partials/schedule/classes/classes.html",
                 controller: "classesCtrl",
                 data: {
-                    requireLogin: true
+                    requireLogin: false
                 }
             })
             .state('contact', {
@@ -60,7 +52,7 @@
                 templateUrl: "partials/user/contact/contact.html",
                 controller: "contactCtrl",
                 data: {
-                    requireLogin: true
+                    requireLogin: false
                 }
             })
             .state('login', {
@@ -74,7 +66,7 @@
                 url: "/logout",
                 templateUrl: "partials/user/logout/logout.html",
                 data: {
-                    requireLogin: true
+                    requireLogin: false
                 }
             })
             .state('register', {
@@ -84,60 +76,31 @@
                     requireLogin: false
                 }
             })
-
-        $httpProvider.interceptors.push(function($timeout, $q, $injector) {
-            var loginService, $http, $state;
-
-            $timeout(function() {
-                loginService = $injector.get('loginService');
-                $http = $injector.get('$http');
-                $state = $injector.get('$state');
-            });
-
-            return {
-                responseError: function(rejection) {
-                    if (rejection.status !== 401) {
-                        return rejection;
-                    }
-
-                    var deferred = $q.defer();
-
-                    loginService()
-                        .then(function() {
-                            deferred.resolve($http(rejection.config));
-                        })
-                        .catch(function() {
-                            $state.go('home');
-                            deferred.reject(rejection);
-                        });
-
-                    return deferred.promise;
+            .state('downloads', {
+                url: "/downloads",
+                templateUrl: "partials/user/downloads/downloads.html",
+                data: {
+                    requireLogin: true
                 }
-            };
-        });
-
-
-
+            })
     });
 
-    yogaApp.run(function($rootScope, $state, loginService) {
+    yogaApp.run(function($rootScope, $state, $modal, $cookieStore) {
         
         $rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
             var requireLogin = toState.data.requireLogin;
+            var userDetails = $cookieStore.get('userDetails');
 
-            if (requireLogin && typeof $rootScope.currentUser === 'undefined') {
-                event.preventDefault();
-                loginService()
-                    .then(function() {
-                        return $state.go(toState.name, toParams);
-                    })
-                    .catch(function() {
-                        return $state.go('home');
-                    });
+            if (requireLogin && typeof userDetails === 'undefined') {
+                $modal.open({
+                    templateUrl: 'partials/user/login/login.html',
+                    controller: 'loginCtrl',
+                    controllerAs: 'loginCtrl'
+                });
             }
+
         });
     });
-
 
     yogaApp.service('ClassesDataService', function($resource) {
         
@@ -195,126 +158,23 @@
 
     });
 
-    yogaApp.service('WorkshopDataService', function($resource) {
-        
-        this.workshops = [{
-            name: 'Ashtanga Arm Balances',
-            description: 'Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit, dolore aliqua non',
-            date: '1477323623006',
-            time: '10:30 am',
-            duration: 1,
-            price: 250,
-            location: {
-                address: '58 Gordon Road',
-                suburb: 'Morningside',
-                city: 'Durban',
-                province: 'Kwa-zulu Natal'
-            }
-        }, {
-            name: 'Brilliant Back Bends',
-            description: 'Aute in reprehenderit, dolore aliqua non est magna in labore pig pork biltong. Eiusmod swine spare ribs reprehenderit culpa.',
-            date: '1476323623006',
-            time: '08:30 am',
-            duration: 2,
-            price: 500,
-            location: {
-                address: '58 Gordon Road',
-                suburb: 'Morningside',
-                city: 'Durban',
-                province: 'Kwa-zulu Natal'
-            }
-        }, {
-            name: 'Restorative Stretching',
-            description: 'Eiusmod swine spare ribs reprehenderit culpa.Eiusmod swine spare ribs reprehenderit culpa. Boudin aliqua adipisicing rump corned beef.',
-            date: '1471323623006',
-            time: '08:30 am',
-            duration: 3,
-            price: 1000,
-            location: {
-                address: '58 Gordon Road',
-                suburb: 'Morningside',
-                city: 'Durban',
-                province: 'Kwa-zulu Natal'
-            }
-        }, {
-            name: 'Breaking your Bandas',
-            description: 'Boudin aliqua adipisicing rump corned beef. Eiusmod swine spare ribs reprehenderit culpa. Eiusmod swine spare ribs reprehenderit culpa.',
-            date: '1471223623006',
-            time: '08:30 am',
-            duration: 4,
-            price: 2000,
-            location: {
-                address: '58 Gordon Road',
-                suburb: 'Morningside',
-                city: 'Durban',
-                province: 'Kwa-zulu Natal'
-            }
-        }, {
-            name: 'Integral Kundalini Banda Work',
-            description: 'Boudin aliqua adipisicing rump corned beef. Eiusmod swine spare ribs reprehenderit culpa. Eiusmod swine spare ribs reprehenderit culpa.',
-            date: '1471323623006',
-            time: '08:30 am',
-            duration: 2,
-            price: 800,
-            location: {
-                address: '58 Gordon Road',
-                suburb: 'Morningside',
-                city: 'Durban',
-                province: 'Kwa-zulu Natal'
-            }
-        }];
-
-    });
-
-    yogaApp.service('WorkshopService', function(WorkshopDataService) {
-        
-        this.getAllWorkshops = function() {
-            return WorkshopDataService.workshops;
-        };
-
-    });
-
-    yogaApp.service('loginService', function($rootScope, $modal) {
-
-        function assignCurrentUser(user) {
-            $rootScope.currentUser = user;
-            return user;
-        }
-        
-        return function() {
-                                
-            var instance = $modal.open({
-                templateUrl: 'partials/user/login/login.html',
-                controller: 'loginCtrl',
-                controllerAs: 'loginCtrl'
-            });
-
-            if (typeof $rootScope.validatingUser != 'undefined') {
-                var user = {
-                    email: $rootScope.validatingUser.email,
-                    password: rootScope.validatingUser.password,
-                    firstName: 'Paul',
-                    lastName: 'Cluver'
-                }
-            }
-            else {
-                var user = {
-                    email: '',
-                    password: ''
-                }
-            }
-            return instance.result.then(assignCurrentUser(user));
-        };
-
-    });
-
-    yogaApp.factory("UsersApi", function($q) {
+    yogaApp.factory("LoginApi", function($q) {
         
         function _login(email, password) {
             var d = $q.defer();
             setTimeout(function() {
+
                 if (email === 'test@test.com' && password === 'secret') {
-                    d.resolve();
+                    // db query stuff would happen here
+                    var user = {
+                        authenticated: true,
+                        email: email,
+                        password: password,
+                        firstName: 'Paul',
+                        lastName: 'Cluver'
+                    }
+
+                    d.resolve(user);
                 }
                 else {
                     alert('Invalid Credentials');
@@ -329,6 +189,19 @@
 
     });
 
+    yogaApp.controller('loginCtrl', function($scope, $cookieStore, LoginApi) {
+        this.cancel = $scope.$dismiss;
+
+        this.submit = function(email, password) { 
+            LoginApi.login(email, password).then(function(user) {
+                $cookieStore.put('userDetails', user);
+                $scope.$close(user);
+            });
+        };
+
+    });
+
+
     yogaApp.controller('appCtrl', function($rootScope, $scope, $cookieStore, $location) {
         
         $scope.showContactUs = function() {
@@ -341,9 +214,9 @@
 
         $scope.showLoginLink = function() {
             $scope.showLogin = false;
-            var userAuthenticated = $cookieStore.get('userAuthenticated');
+            var userDetails = $cookieStore.get('userDetails');            
 
-            if (userAuthenticated === false || typeof userAuthenticated === 'undefined') {
+            if (userDetails === false || typeof userDetails === 'undefined') {
                 $scope.showLogin = true;
             }
             return $scope.showLogin;
@@ -351,18 +224,16 @@
 
          $scope.showLogoutLink = function() {
             $scope.showLogout = false;
-            var userAuthenticated = $cookieStore.get('userAuthenticated');
-
-            if (userAuthenticated === true) {
+            var userDetails = $cookieStore.get('userDetails');
+            
+            if (typeof userDetails != 'undefined' && userDetails['authenticated'] === true) {
                 $scope.showLogout = true;
-            }
+            } 
             return $scope.showLogout;
         };
 
         $scope.logout = function() {
-            $cookieStore.remove('userAuthenticated');
-            delete $rootScope.currentUser;
-            delete $rootScope.validatingUser;
+            $cookieStore.remove('userDetails');
             $location.path('home');
         };
 
@@ -398,24 +269,6 @@
         };
 
         $scope.reset();
-
-    });
-
-    yogaApp.controller('loginCtrl', function($scope, $rootScope, $cookieStore, UsersApi) {
-        this.cancel = $scope.$dismiss;
-
-        this.submit = function(email, password) {
-            
-            $rootScope.validatingUser = {
-                userEmail : email,
-                userPassword: password
-            };
-
-            UsersApi.login(email, password).then(function(user) {
-                $cookieStore.put('userAuthenticated', true);
-                $scope.$close(user);
-            });
-        };
 
     });
 
