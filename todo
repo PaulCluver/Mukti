@@ -4,7 +4,7 @@ Providers			:	TODO
 Services			:	service('WorkshopDataService')
 Routing (UI-Router)	:	config(function($stateProvider, $urlRouterProvider)
 Built-in Directives	: 	ng-hide="showContactUs()"
-Custom Directives	: 	TODO
+Custom Directives	: 	yogaApp.directive('contactbar'
 Filters				:	| filter: workshopFilter	
 Testing				:	gulp unit and gulp e2e
 Promises			:	TODO
