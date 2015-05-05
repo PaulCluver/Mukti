@@ -4,81 +4,83 @@
 
     var yogaApp = angular.module('yogaApp', ['ui.router', 'mgcrea.ngStrap', 'ngResource', 'mm.foundation', 'ngCookies']);
 
-    yogaApp.constant('VERSION', "0.1");
+    yogaApp.constant('VERSION', '0.1');
 
-    yogaApp.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
+    yogaApp.config(function($stateProvider, $urlRouterProvider, $httpProvider, GreetingProvider) {
         
-        $urlRouterProvider.otherwise("/home");
+        GreetingProvider.setName('Provider');
+
+        $urlRouterProvider.otherwise('/home');
         $stateProvider
             .state('home', {
-                url: "/home",
-                templateUrl: "partials/home/home.html",
-                controller: "homeCtrl",
+                url: '/home',
+                templateUrl: 'partials/home/home.html',
+                controller: 'homeCtrl',
                 data: {
                     requireLogin: false
                 }
             })
             .state('hatha', {
-                url: "/hatha",
-                templateUrl: "partials/yoga/hatha/hatha.html",
+                url: '/hatha',
+                templateUrl: 'partials/yoga/hatha/hatha.html',
                 data: {
                     requireLogin: false
                 }
             })
             .state('ashtanga', {
-                url: "/ashtanga",
-                templateUrl: "partials/yoga/ashtanga/ashtanga.html",
+                url: '/ashtanga',
+                templateUrl: 'partials/yoga/ashtanga/ashtanga.html',
                 data: {
                     requireLogin: false
                 }
             })
             .state('vinyasa', {
-                url: "/vinyasa",
-                templateUrl: "partials/yoga/vinyasa/vinyasa.html",
+                url: '/vinyasa',
+                templateUrl: 'partials/yoga/vinyasa/vinyasa.html',
                 data: {
                     requireLogin: false
                 }
             })
             .state('classes', {
-                url: "/classes",
-                templateUrl: "partials/schedule/classes/classes.html",
-                controller: "classesCtrl",
+                url: '/classes',
+                templateUrl: 'partials/schedule/classes/classes.html',
+                controller: 'classesCtrl',
                 data: {
                     requireLogin: false
                 }
             })
             .state('contact', {
-                url: "/contact",
-                templateUrl: "partials/user/contact/contact.html",
-                controller: "contactCtrl",
+                url: '/contact',
+                templateUrl: 'partials/user/contact/contact.html',
+                controller: 'contactCtrl',
                 data: {
                     requireLogin: false
                 }
             })
             .state('login', {
-                url: "/login",
-                templateUrl: "partials/user/login/login.html",
+                url: '/login',
+                templateUrl: 'partials/user/login/login.html',
                 data: {
                     requireLogin: false
                 }
             })
             .state('logout', {
-                url: "/logout",
-                templateUrl: "partials/user/logout/logout.html",
+                url: '/logout',
+                templateUrl: 'partials/user/logout/logout.html',
                 data: {
                     requireLogin: false
                 }
             })
             .state('register', {
-                url: "/register",
-                templateUrl: "partials/user/register/register.html",
+                url: '/register',
+                templateUrl: 'partials/user/register/register.html',
                 data: {
                     requireLogin: false
                 }
             })
             .state('downloads', {
-                url: "/downloads",
-                templateUrl: "partials/user/downloads/downloads.html",
+                url: '/downloads',
+                templateUrl: 'partials/user/downloads/downloads.html',
                 data: {
                     requireLogin: true
                 }
@@ -158,7 +160,7 @@
 
     });
 
-    yogaApp.factory("LoginApi", function($q) {
+    yogaApp.factory('LoginApi', function($q) {
         
         function _login(email, password) {
             var d = $q.defer();
@@ -186,23 +188,51 @@
         return {
             login: _login
         };
+        var greeting = constantGreeting + " Factory" + exclamation;
+
+        this.getGreeting = function() {
+            return greeting;
+        };
+
+    });    
+
+    yogaApp.provider('Greeting', function() {
+        
+        this.setName = function(name) {
+            this.name = name;
+        };
+
+        this.setConstant = function(constant) {
+            this.constant = constant;
+        }
+
+        this.$get = function($cookieStore) {
+            var self = this;
+            return {
+                getGreeting: function() {
+                    if (typeof $cookieStore.get('userDetails') != 'undefined') {
+                        return $cookieStore.get('userDetails')['firstName'] + ' ' + $cookieStore.get('userDetails')['lastName'];
+                    }
+                }
+            };
+        };
 
     });
 
-    yogaApp.controller('loginCtrl', function($scope, $cookieStore, LoginApi) {
+    yogaApp.controller('loginCtrl', function($scope, $cookieStore, LoginApi, $window) {
         this.cancel = $scope.$dismiss;
 
         this.submit = function(email, password) { 
             LoginApi.login(email, password).then(function(user) {
                 $cookieStore.put('userDetails', user);
                 $scope.$close(user);
+                $window.location.reload();
             });
         };
 
     });
 
-
-    yogaApp.controller('appCtrl', function($rootScope, $scope, $cookieStore, $location) {
+    yogaApp.controller('appCtrl', function($rootScope, $scope, $cookieStore, $location, Greeting, $window) {
         
         $scope.showContactUs = function() {
             $scope.showContactUsBoolean = false;
@@ -234,8 +264,11 @@
 
         $scope.logout = function() {
             $cookieStore.remove('userDetails');
+            $window.location.reload();
             $location.path('home');
         };
+
+        $scope.providerGreeting = Greeting.getGreeting();
 
     });
 
@@ -293,13 +326,13 @@
         return function(duration) {
             switch (duration) {
                 case 1:
-                    return "1 hour";
+                    return '1 hour';
                 case 2:
-                    return "2 hours";
+                    return '2 hours';
                 case 3:
-                    return "Half day";
+                    return 'Half day';
                 case 4:
-                    return "Full day";
+                    return 'Full day';
             }
         }
 
@@ -309,7 +342,7 @@
 
         var directive = {};
         directive.restrict = 'E';
-        directive.templateUrl = "/partials/user/contact/contactBar.html";
+        directive.templateUrl = '/partials/user/contact/contactBar.html';
         return directive;
 
     });
