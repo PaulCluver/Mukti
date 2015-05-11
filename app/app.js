@@ -316,14 +316,6 @@
 
     }]);
 
-    yogaApp.controller('workshopCtrl', ['$scope', 'WorkshopService', function($scope, WorkshopService) {
-        
-        $scope.workshops = WorkshopService.getAllWorkshops();
-        $scope.orderByField = 'name';
-        $scope.reverseSort = false;
-
-    }]);
-
     yogaApp.filter('durations', function() {
         
         return function(duration) {

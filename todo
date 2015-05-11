@@ -1,6 +1,6 @@
 Modules				: 	angular.module('yogaApp')
 Controllers			:	controller('workshopCtrl')
-Providers			:	TODO
+Providers			:	yogaApp.provider('Greeting'
 Services			:	service('WorkshopDataService')
 Routing (UI-Router)	:	config(function($stateProvider, $urlRouterProvider)
 Built-in Directives	: 	ng-hide="showContactUs()"
