@@ -7,8 +7,7 @@
     yogaApp.constant('VERSION', '0.1');
 
     yogaApp.config(function($stateProvider, $urlRouterProvider, $httpProvider, GreetingProvider) {
-        
-        GreetingProvider.setName('Provider');
+               
 
         $urlRouterProvider.otherwise('/home');
         $stateProvider
@@ -201,14 +200,6 @@
 
     yogaApp.provider('Greeting', function() {
         
-        this.setName = function(name) {
-            this.name = name;
-        };
-
-        this.setConstant = function(constant) {
-            this.constant = constant;
-        }
-
         this.$get = function($cookieStore) {
             var self = this;
             return {
