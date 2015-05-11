@@ -160,40 +160,43 @@
 
     });
 
-    yogaApp.factory('LoginApi', function($q) {
-        
-        function _login(email, password) {
+    yogaApp.factory('LoginApi', function($q, $http) {        
+       
+
+        function _login(userName, password) {
             var d = $q.defer();
             setTimeout(function() {
+                    
+                var user = undefined;
 
-                if (email === 'test@test.com' && password === 'secret') {
-                    // db query stuff would happen here
-                    var user = {
-                        authenticated: true,
-                        email: email,
-                        password: password,
-                        firstName: 'Paul',
-                        lastName: 'Cluver'
+                var query = { _name: 'SAHL.Services.Interfaces.UserProfile.Queries.GetUserDetailsForUserQuery,SAHL.Services.Interfaces.UserProfile', aDUsername: userName};
+                $http.post('http://localhost/UserProfileService/api/QueryHttpHandler/PerformHttpQuery', query)
+                .success(function (data, status, headers, config) {
+                    if (data != undefined) 
+                        
+                        var user = {
+                            authenticated: true,
+                            email: data.ReturnData.Results.$values[0].EmailAddress,
+                            password: password,                                
+                            displayName: data.ReturnData.Results.$values[0].DisplayName
+                        }
+                        
+                        d.resolve(user);
+                })
+                .error(function (data, status, headers, config) {
+                    if (data != undefined) {
+                        alert('Invalid Credentials: ');                       
+                        d.reject('Invalid Credentials');
                     }
-
-                    d.resolve(user);
-                }
-                else {
-                    alert('Invalid Credentials');
-                    d.reject('Invalid Credentials');
-                }
+                });
+                
             }, 100);
             return d.promise
         }
         return {
             login: _login
         };
-        var greeting = constantGreeting + " Factory" + exclamation;
-
-        this.getGreeting = function() {
-            return greeting;
-        };
-
+        
     });    
 
     yogaApp.provider('Greeting', function() {
@@ -211,7 +214,7 @@
             return {
                 getGreeting: function() {
                     if (typeof $cookieStore.get('userDetails') != 'undefined') {
-                        return $cookieStore.get('userDetails')['firstName'] + ' ' + $cookieStore.get('userDetails')['lastName'];
+                        return $cookieStore.get('userDetails')['displayName'];
                     }
                 }
             };
@@ -222,8 +225,8 @@
     yogaApp.controller('loginCtrl', function($scope, $cookieStore, LoginApi, $window) {
         this.cancel = $scope.$dismiss;
 
-        this.submit = function(email, password) { 
-            LoginApi.login(email, password).then(function(user) {
+        this.submit = function(userName, password) { 
+            LoginApi.login(userName, password).then(function(user) {
                 $cookieStore.put('userDetails', user);
                 $scope.$close(user);
                 $window.location.reload();

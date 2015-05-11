@@ -1,10 +1,8 @@
   <div data-reveal role="dialog">
-	<form ng-submit="loginCtrl.submit(_email, _password)">
+	<form ng-submit="loginCtrl.submit(_userName, _password)">
 	    <p>
-	        <label>Email address:</label>
-	        <input type="email" ng-model="_email"/>
-	        <label>Password:</label>
-	        <input type="password" ng-model="_password" />
+	        <label>User name:</label>
+	        <input type="text" ng-model="_userName"/>	        
 	    </p>
 	    <p>
 	        <input class="button" type="submit" value="Submit" />
