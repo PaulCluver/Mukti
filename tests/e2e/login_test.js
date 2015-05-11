@@ -1,18 +1,13 @@
-describe('Login Form', function() {
+describe('Login Form', function($cookieStore) {
 
     beforeEach(function(){
         browser.get('http://localhost:8888/#/login');
     });
 
-    it('should log the user in when given a valid username and password', function($scope) {
-    	var user = {
-            email : 'test@test.com',
-            password: 'secret'
-        };
-
-    	element(by.model('user.email')).sendKeys('test@test.com');
-    	element(by.model('user.password')).sendKeys('secret');
+    it('should log the user in when given a valid username', function($cookieStore) {    	
+    	element(by.model('_userName')).sendKeys('PaulCL');
     	element(by.id('loginButton')).click();
-    	expect($scope.loginDetails).toEqual(user);
+        var authenticated = $cookieStore.get('userDetails')['authenticated'];
+        expect(authenticated).toEqual(1);
     })
 });

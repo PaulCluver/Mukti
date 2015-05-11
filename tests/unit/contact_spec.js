@@ -40,9 +40,6 @@ describe('contactCtrl', function() {
         };
 
         var clearUser = {};
-
-        //$scope.reset(user);
-        //assert.deepEqual(clearUser, $scope.contactDetails);
     });
     
 });

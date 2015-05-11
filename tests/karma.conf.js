@@ -16,6 +16,8 @@ module.exports = function(config) {
       '../app/bower_components/angular-mocks/angular-mocks.js',
       '../app/bower_components/ui-router/angular-ui-router.js',
       '../app/bower_components/angular-resource/angular-resource.js',
+      '../app/bower_components/angular-foundation/src/mm-foundation-tpls-0.6.0.js',
+      '../app/bower_components/angular-cookies/angular-cookies.min.js',
       './unit/*.js',
       '../app/app.js'
     ],
