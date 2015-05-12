@@ -63,20 +63,6 @@
                     requireLogin: false
                 }
             })
-            .state('logout', {
-                url: '/logout',
-                templateUrl: 'partials/user/logout/logout.html',
-                data: {
-                    requireLogin: false
-                }
-            })
-            .state('register', {
-                url: '/register',
-                templateUrl: 'partials/user/register/register.html',
-                data: {
-                    requireLogin: false
-                }
-            })
             .state('downloads', {
                 url: '/downloads',
                 templateUrl: 'partials/user/downloads/downloads.html',
@@ -201,7 +187,6 @@
     yogaApp.provider('Greeting', function() {
         
         this.$get = function($cookieStore) {
-            var self = this;
             return {
                 getGreeting: function() {
                     if (typeof $cookieStore.get('userDetails') != 'undefined') {

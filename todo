@@ -6,6 +6,6 @@ Routing (UI-Router)	:	config(function($stateProvider, $urlRouterProvider)
 Built-in Directives	: 	ng-hide="showContactUs()"
 Custom Directives	: 	yogaApp.directive('contactbar'
 Filters				:	| filter: classesFilter	
-Testing				:	gulp unit and gulp e2e
+Testing				:	gulp unit and webdriver-manager start + gulp e2e
 Promises			:	yogaApp.controller('loginCtrl'
 Calling services 	:	controller('workshopCtrl', ['$scope', 'WorkshopService', function($scope, WorkshopService) 
